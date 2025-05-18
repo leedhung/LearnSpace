@@ -1,6 +1,8 @@
 package com.example.learn_space.service.imp;
 
 
+import com.example.learn_space.constain.RoleType;
+import com.example.learn_space.dto.request.UserLoginRequest;
 import com.example.learn_space.dto.response.UserResponse;
 import com.example.learn_space.dto.request.UserCreationRequest;
 import com.example.learn_space.exceptions.AppException;
@@ -14,21 +16,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class UserService implements IUserService {
-    private UserRepository userRepository;
-    private UserMapper userMapper;
-    private PasswordEncoder passwordEncoder;
+     UserRepository userRepository;
+     UserMapper userMapper;
+//    private PasswordEncoder passwordEncoder;
+
 
     public UserResponse createUser(UserCreationRequest request) {
         User user = userMapper.toUser(request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
+        user.setName(request.getName());
 
         try {
             user = userRepository.save(user);
@@ -41,7 +48,20 @@ public class UserService implements IUserService {
 
 
     @Override
-    public String login(String phoneNumber, String password, Long roleId) throws Exception {
-        return "";
+    public UserResponse login(UserLoginRequest request) throws Exception {
+        User user = userRepository
+                .findByUsername(request.getUsername())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new AppException(ErrorCode.INVALID_PASSWORD);
+        }
+        String id = String.valueOf(user.getId());
+        return UserResponse.builder()
+                .id(id)
+                .username(user.getUsername())
+                .name(user.getName())
+                .role(user.getRole())
+                .build();
     }
 }

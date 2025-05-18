@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "classrom")
@@ -20,7 +21,7 @@ public class ClassRoom {
     @Column(name= "name" , length = 200, nullable = false)
     private String name;
 
-    @Column(name= "code" , length = 200, nullable = false)
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "createdAt")
@@ -30,4 +31,8 @@ public class ClassRoom {
     @JoinColumn(name = "owner")
     private User owner;
 
+    @PrePersist
+    private void generateCode() {
+        this.code = UUID.randomUUID().toString().substring(0, 8); // ví dụ tạo code ngắn 8 ký tự
+    }
 }
