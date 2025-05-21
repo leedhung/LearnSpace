@@ -19,7 +19,7 @@ public interface ClassRoomMapper {
     @Mapping(target = "owner", ignore = true)
     ClassRoom toClassRoom(ClassCreationRequest request);
 
-    @Mapping(target = "owner", ignore = true)
+    @Mapping(target = "ownerId", ignore = true)
     ClassRoomResponse toClassRoomResponse(ClassRoom classRoom);
 
 

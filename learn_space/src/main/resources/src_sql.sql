@@ -1,13 +1,13 @@
 -- XÓA CÁC BẢNG THEO THỨ TỰ PHỤ THUỘC
 DROP TABLE IF EXISTS Materials;
-DROP TABLE IF EXISTS Post;
+DROP TABLE IF EXISTS Lesson;
 DROP TABLE IF EXISTS Member;
 DROP TABLE IF EXISTS ClassRoom;
 DROP TABLE IF EXISTS User;
 
 -- TẠO LẠI BẢNG USER
 CREATE TABLE User (
-                      id INT PRIMARY KEY AUTO_INCREMENT,
+                      id INT AUTO_INCREMENT PRIMARY KEY,
                       name VARCHAR(255),
                       email VARCHAR(255) UNIQUE,
                       role INT,
@@ -18,41 +18,41 @@ CREATE TABLE User (
 
 -- TẠO LẠI BẢNG CLASSROOM
 CREATE TABLE ClassRoom (
-                           id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                           id INT AUTO_INCREMENT PRIMARY KEY,
                            code VARCHAR(50) UNIQUE,
                            owner INT,
-                           ative BOOLEAN,
+                           active BOOLEAN,
                            createAt DATE,
                            FOREIGN KEY (owner) REFERENCES User(id)
 );
 
 -- TẠO LẠI BẢNG MEMBER
 CREATE TABLE Member (
-                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        id INT AUTO_INCREMENT PRIMARY KEY,
                         idUser INT,
-                        idClassRoom BIGINT,
+                        idClassRoom INT,
                         joinAt DATE,
                         role VARCHAR(50),
                         FOREIGN KEY (idUser) REFERENCES User(id),
                         FOREIGN KEY (idClassRoom) REFERENCES ClassRoom(id)
 );
 
--- TẠO LẠI BẢNG POST
-CREATE TABLE Post (
-                      id INT PRIMARY KEY AUTO_INCREMENT,
-                      classId BIGINT,
-                      author INT,
-                      content VARCHAR(1000),
-                      createAt DATE,
-                      FOREIGN KEY (classId) REFERENCES ClassRoom(id),
-                      FOREIGN KEY (author) REFERENCES User(id)
+-- TẠO LẠI BẢNG LESSON
+CREATE TABLE Lesson (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        classId INT,
+                        author INT,
+                        content VARCHAR(1000),
+                        createAt DATE,
+                        FOREIGN KEY (classId) REFERENCES ClassRoom(id),
+                        FOREIGN KEY (author) REFERENCES User(id)
 );
 
 -- TẠO LẠI BẢNG MATERIALS
 CREATE TABLE Materials (
-                           id INT PRIMARY KEY AUTO_INCREMENT,
+                           id INT AUTO_INCREMENT PRIMARY KEY,
                            link VARCHAR(255),
-                           idPost INT,
+                           idLesson INT,
                            type VARCHAR(50),
-                           FOREIGN KEY (idPost) REFERENCES Post(id)
+                           FOREIGN KEY (idLesson) REFERENCES Lesson(id)
 );

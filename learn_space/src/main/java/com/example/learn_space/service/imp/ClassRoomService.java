@@ -10,6 +10,7 @@ import com.example.learn_space.models.ClassRoom;
 import com.example.learn_space.models.User;
 import com.example.learn_space.repository.ClassRoomRepository;
 import com.example.learn_space.repository.UserRepository;
+import com.example.learn_space.service.IClassRoomService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,22 +24,35 @@ import java.util.Optional;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class ClassRoomService {
+public class ClassRoomService implements IClassRoomService {
     ClassRoomRepository classRoomRepository;
     ClassRoomMapper classRoomMapper;
     UserRepository userRepository;
+
+    @Override
     public ClassRoomResponse createClass(ClassCreationRequest request) {
         ClassRoom classRoom = classRoomMapper.toClassRoom(request);
-        Optional<User> user = userRepository.findById(request.getIdOwner());
-        if (user.isEmpty()) throw new AppException(ErrorCode.USER_EXISTED);
-        classRoom.setOwner(user.get());
-        if(!user.get().getRole().equals(RoleType.ROLE_ADMIN))  throw new AppException(ErrorCode.NOT_ENOUGH_RIGHTS);
+        Long id= request.getOwnerId();
+
+        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CLASS_NOT_EXIT));
+        if(!user.getRole().equals(RoleType.ROLE_ADMIN))  throw new AppException(ErrorCode.NOT_ENOUGH_RIGHTS);
 
         try{
             classRoom = classRoomRepository.save(classRoom);
         } catch (DataIntegrityViolationException exception){
             throw new AppException(ErrorCode.INVALID_KEY);
         }
+        ClassRoomResponse response = classRoomMapper.toClassRoomResponse(classRoom);
+        response.setOwnerId(user.getId());
+        return response;
+    }
+
+    @Override
+    public ClassRoomResponse getClassById(Long id) {
+        ClassRoom classRoom = classRoomRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.CLASS_NOT_EXIT));
+
         return classRoomMapper.toClassRoomResponse(classRoom);
     }
+
 }

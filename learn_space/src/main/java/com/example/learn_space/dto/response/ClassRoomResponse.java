@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ClassRoomResponse {
-    String id;
-    String owner;
+    Long id;
+    Long ownerId;
     String code;
 }

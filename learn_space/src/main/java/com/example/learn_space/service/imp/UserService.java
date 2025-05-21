@@ -56,9 +56,8 @@ public class UserService implements IUserService {
         if (!user.getPassword().equals(request.getPassword())) {
             throw new AppException(ErrorCode.INVALID_PASSWORD);
         }
-        String id = String.valueOf(user.getId());
         return UserResponse.builder()
-                .id(id)
+                .id(user.getId())
                 .username(user.getUsername())
                 .name(user.getName())
                 .role(user.getRole())

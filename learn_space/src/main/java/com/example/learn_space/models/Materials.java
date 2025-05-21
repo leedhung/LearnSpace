@@ -19,7 +19,7 @@ public class Materials {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name = "idPost")
-    private ClassRoom classRoom;
+    @JoinColumn(name = "idLesson")
+    private Lesson lesson;
 
 }

@@ -20,7 +20,7 @@ public class ClassroomController {
     ClassRoomService classRoomService;
 
     @PostMapping("/create-class")
-    ApiResponse createClas(@RequestBody @Valid ClassCreationRequest request)  {
+    ApiResponse createClas(@RequestBody @Valid ClassCreationRequest request )  {
 
         return ApiResponse.<ClassRoomResponse>builder()
                 .result(classRoomService.createClass(request))
