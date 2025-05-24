@@ -19,7 +19,7 @@ public class Materials {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name = "idLesson")
+    @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 
 }

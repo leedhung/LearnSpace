@@ -33,9 +33,7 @@ public class UserService implements IUserService {
 
     public UserResponse createUser(UserCreationRequest request) {
         User user = userMapper.toUser(request);
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
-        user.setName(request.getName());
+        user.setLocked(false);
 
         try {
             user = userRepository.save(user);

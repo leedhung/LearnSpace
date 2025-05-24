@@ -9,7 +9,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface LessonMapper {
     @Mapping(target = "author", ignore = true)
+    @Mapping(target = "classRoom", ignore = true)
     Lesson toLesson(LessonCreationRequest request);
+
     @Mapping(target = "authorId", ignore = true)
     LessonResponse toLessonResponse(Lesson lesson);
 }

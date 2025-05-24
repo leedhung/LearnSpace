@@ -11,5 +11,7 @@ import lombok.experimental.FieldDefaults;
 public class LessonResponse {
     Long id;
     Long authorId;
+    String name;
     String creatAt;
+    String loss;
 }

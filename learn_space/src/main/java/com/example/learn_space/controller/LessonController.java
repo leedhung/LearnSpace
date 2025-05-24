@@ -8,19 +8,16 @@ import com.example.learn_space.dto.response.LessonResponse;
 import com.example.learn_space.service.imp.LessonService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/Lesson")
+@RequestMapping("/lesson")
 public class LessonController {
     @Autowired
     LessonService lessonService;
 
     @PostMapping("/create-lesson")
-    ApiResponse createLesson(@RequestBody @Valid LessonCreationRequest request)  {
+    ApiResponse createLesson(@ModelAttribute @Valid LessonCreationRequest request)  {
         return ApiResponse.<LessonResponse>builder()
                 .result(lessonService.createLesson(request))
                 .build();

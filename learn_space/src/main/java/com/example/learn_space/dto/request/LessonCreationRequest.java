@@ -13,9 +13,10 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LessonCreationRequest {
     Long id;
-    Long ownerId;
+    Long authorId;
+    Long classId;
+    String name;
     String content;
     String creatAt;
     List<MultipartFile> files;
-
 }

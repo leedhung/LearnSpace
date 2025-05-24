@@ -22,12 +22,12 @@ public class Lesson {
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "classId")
+    @JoinColumn(name = "classroom_id")
     private ClassRoom classRoom;
-
+    private String name;
     private String content;
 
-    @Column(name = "createdAt")
+    @Column(name = "create_at")
     private LocalDateTime createdAt;
 
 }

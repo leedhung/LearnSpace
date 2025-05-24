@@ -24,7 +24,7 @@ public class ClassRoom {
     @Column(name = "code", unique = true)
     private String code;
 
-    @Column(name = "createdAt")
+    @Column(name = "create_at")
     private LocalDateTime createdAt;
 
     @ManyToOne

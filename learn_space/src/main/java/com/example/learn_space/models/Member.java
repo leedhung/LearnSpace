@@ -18,13 +18,16 @@ public class Member {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "idUser")
+    @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "role")
+    private String role;
+
     @ManyToOne
-    @JoinColumn(name = "idClassRoom")
+    @JoinColumn(name = "classroom_id")
     private ClassRoom classRoom;
 
-    @Column(name = "joinAt")
+    @Column(name = "join_at")
     private LocalDateTime joinAt;
 }

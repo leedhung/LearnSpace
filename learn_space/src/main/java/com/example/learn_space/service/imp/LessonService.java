@@ -31,15 +31,17 @@ public class LessonService implements ILessonService {
     @Override
     public LessonResponse createLesson(LessonCreationRequest request) {
         Lesson lesson = lessonMapper.toLesson(request);
-        User user = userRepository.findById(request.getOwnerId()).orElseThrow(() -> new AppException(ErrorCode.CLASS_NOT_EXIT));
+        User user = userRepository.findById(request.getAuthorId()).orElseThrow(() -> new AppException(ErrorCode.CLASS_NOT_EXIT));
         if(!user.getRole().equals(RoleType.ROLE_ADMIN))  throw new AppException(ErrorCode.NOT_ENOUGH_RIGHTS);
+        LessonResponse lessonResponse = lessonMapper.toLessonResponse(lesson);
         String link,type;
         for (MultipartFile file : request.getFiles()) {
             type = file.getContentType();
             link = cloudinaryService.uploadFile(file);
-            materialsService.createMaterials(link,type,request.getId(), lesson);
+            if(!materialsService.createMaterials(link,type,request.getId(), lesson))
+               lessonResponse.setLoss(" Can't upload file \" "+file.getName()+" \" ");
         }
-        LessonResponse lessonResponse = lessonMapper.toLessonResponse(lesson);
+
         lessonResponse.setAuthorId(user.getId());
         return lessonResponse;
     }
