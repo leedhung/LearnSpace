@@ -1,0 +1,36 @@
+.class-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 16px;
+  margin: 12px;
+  width: 250px;
+  min-height: 140px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+.class-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.class-teacher {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: 10px;
+  border: 2px solid #fff;
+}
+.class-actions {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  gap: 10px;
+} 
